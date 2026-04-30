@@ -7,6 +7,13 @@ const Member = sequelize.define('Member', {
   email: { type: DataTypes.STRING, allowNull: false, unique: true },
   phone: { type: DataTypes.STRING },
   membership_date: { type: DataTypes.DATEONLY, defaultValue: DataTypes.NOW },
-}, { tableName: 'members', timestamps: true });
+}, { 
+  tableName: 'members', 
+  timestamps: true,
+  indexes: [
+    { fields: ['email'] },
+    { fields: ['name'] }
+  ]
+});
 
 module.exports = Member;

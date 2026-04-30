@@ -19,6 +19,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/members', require('./routes/members'));
 app.use('/books', require('./routes/books'));
 app.use('/loans', require('./routes/loans'));
+app.use('/services', require('./routes/services'));
 
 app.get('/health', (req, res) => res.json({ status: 'ok', message: 'Library Management System is running' }));
 

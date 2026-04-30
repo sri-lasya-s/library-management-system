@@ -17,7 +17,8 @@ async function start() {
   try {
     await sequelize.authenticate();
     console.log('✅ Database connected');
-    await sequelize.sync({ alter: true });
+    
+    await sequelize.sync({ force: false });
     console.log('✅ Tables created');
 
     const app = express();
@@ -35,22 +36,21 @@ async function start() {
 
     app.use(morgan('dev'));
     app.use(express.json());
-app.use(cors({
-  origin: '*',
-  credentials: true
-}));
+    app.use(cors({ origin: '*', credentials: true }));
+
     app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
     app.use('/members', require('./src/routes/members'));
     app.use('/books', require('./src/routes/books'));
     app.use('/loans', require('./src/routes/loans'));
+    app.use('/services', require('./src/routes/services'));
 
     app.use('/graphql', 
-  cors({ origin: '*', credentials: true }),
-  express.json(),
-  expressMiddleware(apolloServer, {
-    context: async ({ req }) => ({ req })
-  })
-);
+      cors({ origin: '*', credentials: true }),
+      express.json(),
+      expressMiddleware(apolloServer, {
+        context: async ({ req }) => ({ req })
+      })
+    );
 
     app.get('/health', (req, res) => res.json({ 
       status: 'ok', 
@@ -58,7 +58,8 @@ app.use(cors({
       endpoints: {
         rest: `http://localhost:${PORT}`,
         graphql: `http://localhost:${PORT}/graphql`,
-        docs: `http://localhost:${PORT}/api-docs`
+        docs: `http://localhost:${PORT}/api-docs`,
+        services: `http://localhost:${PORT}/services`
       }
     }));
 
@@ -69,6 +70,7 @@ app.use(cors({
       console.log(`📚 REST API: http://localhost:${PORT}/members`);
       console.log(`🔮 GraphQL: http://localhost:${PORT}/graphql`);
       console.log(`📖 API Docs: http://localhost:${PORT}/api-docs`);
+      console.log(`🔗 Services: http://localhost:${PORT}/services`);
     });
 
   } catch (err) {

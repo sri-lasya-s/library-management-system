@@ -12,7 +12,15 @@ const Loan = sequelize.define('Loan', {
     type: DataTypes.ENUM('active', 'returned', 'overdue', 'cancelled'),
     defaultValue: 'active',
   },
-}, { tableName: 'loans', timestamps: true });
+}, { 
+  tableName: 'loans', 
+  timestamps: true,
+  indexes: [
+    { fields: ['member_id'] },
+    { fields: ['book_id'] },
+    { fields: ['status'] }
+  ]
+});
 
 Loan.belongsTo(Member, { foreignKey: 'member_id' });
 Loan.belongsTo(Book, { foreignKey: 'book_id' });

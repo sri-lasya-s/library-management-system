@@ -9,6 +9,14 @@ const Book = sequelize.define('Book', {
   genre: { type: DataTypes.STRING },
   total_copies: { type: DataTypes.INTEGER, defaultValue: 1 },
   available_copies: { type: DataTypes.INTEGER, defaultValue: 1 },
-}, { tableName: 'books', timestamps: true });
+}, { 
+  tableName: 'books', 
+  timestamps: true,
+  indexes: [
+    { fields: ['isbn'] },
+    { fields: ['author'] },
+    { fields: ['genre'] }
+  ]
+});
 
 module.exports = Book;
