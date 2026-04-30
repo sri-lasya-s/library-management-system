@@ -9,6 +9,7 @@ const errorHandler = require('./src/middleware/errorHandler');
 const { sequelize } = require('./src/models');
 const typeDefs = require('./src/graphql/schema');
 const resolvers = require('./src/graphql/resolvers');
+const seedData = require('./src/seedData');
 require('dotenv').config();
 
 const PORT = process.env.PORT || 3000;
@@ -20,6 +21,9 @@ async function start() {
     
     await sequelize.sync({ force: false });
     console.log('✅ Tables created');
+    
+    await seedData();
+    console.log('✅ Seed data loaded');
 
     const app = express();
 
