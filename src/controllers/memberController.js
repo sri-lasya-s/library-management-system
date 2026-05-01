@@ -32,7 +32,7 @@ exports.updateMember = async (req, res, next) => {
   try {
     const member = await Member.findByPk(req.params.id);
     if (!member) return res.status(404).json({ error: 'Member not found' });
-    const { name, email, phone } = req.body;
+    const { name, email, phone } = req.body || {};
     await member.update({ name, email, phone });
     res.json(member);
   } catch (err) { next(err); }

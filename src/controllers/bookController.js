@@ -32,7 +32,7 @@ exports.updateBook = async (req, res, next) => {
   try {
     const book = await Book.findByPk(req.params.id);
     if (!book) return res.status(404).json({ error: 'Book not found' });
-    const { title, author, genre, total_copies, available_copies } = req.body;
+    const { title, author, genre, total_copies, available_copies } = req.body || {};
     await book.update({ title, author, genre, total_copies, available_copies });
     res.json(book);
   } catch (err) { next(err); }
