@@ -1,0 +1,129 @@
+{
+  "info": {
+    "name": "Library Management System API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "url": "https://library-management-api.azurewebsites.net/health"
+      }
+    },
+    {
+      "name": "Get All Members",
+      "request": {
+        "method": "GET",
+        "url": "https://library-management-api.azurewebsites.net/members"
+      }
+    },
+    {
+      "name": "Create Member",
+      "request": {
+        "method": "POST",
+        "url": "https://library-management-api.azurewebsites.net/members",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"Alice Johnson\", \"email\": \"alice@example.com\", \"phone\": \"555-1111\"}"
+        }
+      }
+    },
+    {
+      "name": "Get Member by ID",
+      "request": {
+        "method": "GET",
+        "url": "https://library-management-api.azurewebsites.net/members/1"
+      }
+    },
+    {
+      "name": "Get All Books",
+      "request": {
+        "method": "GET",
+        "url": "https://library-management-api.azurewebsites.net/books"
+      }
+    },
+    {
+      "name": "Create Book",
+      "request": {
+        "method": "POST",
+        "url": "https://library-management-api.azurewebsites.net/books",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"isbn\": \"978-0-7432-7356-5\", \"title\": \"The Great Gatsby\", \"author\": \"F. Scott Fitzgerald\", \"genre\": \"Classic\", \"total_copies\": 3}"
+        }
+      }
+    },
+    {
+      "name": "Create Loan",
+      "request": {
+        "method": "POST",
+        "url": "https://library-management-api.azurewebsites.net/loans",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"member_id\": 1, \"book_id\": 1, \"due_date\": \"2026-05-30\"}"
+        }
+      }
+    },
+    {
+      "name": "Get Member Loans",
+      "request": {
+        "method": "GET",
+        "url": "https://library-management-api.azurewebsites.net/members/1/loans"
+      }
+    },
+    {
+      "name": "Get Book Details (OpenLibrary)",
+      "request": {
+        "method": "GET",
+        "url": "https://library-management-api.azurewebsites.net/services/books/978-0-7432-7356-5/details"
+      }
+    },
+    {
+      "name": "Get Book Recommendations",
+      "request": {
+        "method": "GET",
+        "url": "https://library-management-api.azurewebsites.net/services/members/1/recommendations"
+      }
+    },
+    {
+      "name": "GraphQL - Get All Books",
+      "request": {
+        "method": "POST",
+        "url": "https://library-management-api.azurewebsites.net/graphql",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"query\": \"{ getBooks(page: 1, limit: 10) { total page data { id title author genre available_copies } } }\"}"
+        }
+      }
+    },
+    {
+      "name": "GraphQL - Get All Members",
+      "request": {
+        "method": "POST",
+        "url": "https://library-management-api.azurewebsites.net/graphql",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"query\": \"{ getMembers(page: 1, limit: 10) { total page data { id name email } } }\"}"
+        }
+      }
+    },
+    {
+      "name": "GraphQL - Create Member",
+      "request": {
+        "method": "POST",
+        "url": "https://library-management-api.azurewebsites.net/graphql",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"query\": \"mutation { createMember(name: \\\"Bob Wilson\\\", email: \\\"bob@example.com\\\") { id name email } }\"}"
+        }
+      }
+    }
+  ]
+}
