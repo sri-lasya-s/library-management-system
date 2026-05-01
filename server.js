@@ -10,6 +10,7 @@ const { sequelize } = require('./src/models');
 const typeDefs = require('./src/graphql/schema');
 const resolvers = require('./src/graphql/resolvers');
 const seedData = require('./src/seedData');
+const logger = require('./src/logger');
 require('dotenv').config();
 
 const PORT = process.env.PORT || 3000;
@@ -17,26 +18,26 @@ const PORT = process.env.PORT || 3000;
 async function start() {
   try {
     await sequelize.authenticate();
-    console.log('✅ Database connected');
-    
+    logger.info('Database connected');
+
     await sequelize.sync({ force: false });
-    console.log('✅ Tables created');
-    
+    logger.info('Tables created');
+
     await seedData();
-    console.log('✅ Seed data loaded');
+    logger.info('Seed data loaded');
 
     const app = express();
 
-    const apolloServer = new ApolloServer({ 
-      typeDefs, 
+    const apolloServer = new ApolloServer({
+      typeDefs,
       resolvers,
       formatError: (error) => {
-        console.error(error);
+        logger.error('GraphQL Error:', error);
         return error;
       }
     });
     await apolloServer.start();
-    console.log('✅ GraphQL server started');
+    logger.info('GraphQL server started');
 
     app.use(morgan('dev'));
     app.use(express.json());
@@ -48,7 +49,7 @@ async function start() {
     app.use('/loans', require('./src/routes/loans'));
     app.use('/services', require('./src/routes/services'));
 
-    app.use('/graphql', 
+    app.use('/graphql',
       cors({ origin: '*', credentials: true }),
       express.json(),
       expressMiddleware(apolloServer, {
@@ -56,8 +57,8 @@ async function start() {
       })
     );
 
-    app.get('/health', (req, res) => res.json({ 
-      status: 'ok', 
+    app.get('/health', (req, res) => res.json({
+      status: 'ok',
       message: 'Library Management System is running',
       endpoints: {
         rest: `http://localhost:${PORT}`,
@@ -70,15 +71,15 @@ async function start() {
     app.use(errorHandler);
 
     app.listen(PORT, () => {
-      console.log(`🚀 Server running on http://localhost:${PORT}`);
-      console.log(`📚 REST API: http://localhost:${PORT}/members`);
-      console.log(`🔮 GraphQL: http://localhost:${PORT}/graphql`);
-      console.log(`📖 API Docs: http://localhost:${PORT}/api-docs`);
-      console.log(`🔗 Services: http://localhost:${PORT}/services`);
+      logger.info(`Server running on http://localhost:${PORT}`);
+      logger.info(`REST API: http://localhost:${PORT}/members`);
+      logger.info(`GraphQL: http://localhost:${PORT}/graphql`);
+      logger.info(`API Docs: http://localhost:${PORT}/api-docs`);
+      logger.info(`Services: http://localhost:${PORT}/services`);
     });
 
   } catch (err) {
-    console.error('❌ Failed to start:', err);
+    logger.error('Failed to start', { error: err.message });
     process.exit(1);
   }
 }
