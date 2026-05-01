@@ -8,7 +8,16 @@ const options = {
       version: '1.0.0',
       description: 'A REST API for managing library books, members and loans',
     },
-    servers: [{ url: 'http://localhost:3000' }],
+    servers: [
+      { 
+        url: 'https://library-management-api.azurewebsites.net',
+        description: 'Production server'
+      },
+      { 
+        url: 'http://localhost:3000',
+        description: 'Local development server'
+      }
+    ],
   },
   apis: ['./src/routes/*.js'],
 };
