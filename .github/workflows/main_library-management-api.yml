@@ -52,4 +52,4 @@ jobs:
           app-name: 'library-management-api'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_D4D65D7525F14710AD28A5BB26B443E6 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_6451A8B7FAF24C05B34C44F5C1E5DFC6 }}
