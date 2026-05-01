@@ -49,6 +49,17 @@ async function start() {
     app.use('/loans', require('./src/routes/loans'));
     app.use('/services', require('./src/routes/services'));
 
+    // GraphQL GET handler for browser visibility
+    app.get('/graphql', (req, res) => {
+      res.json({
+        message: 'GraphQL endpoint is running!',
+        usage: 'Send POST requests to this endpoint',
+        example_query: '{ getBooks(page: 1, limit: 10) { total data { id title author } } }',
+        example_mutation: 'mutation { createBook(isbn: "123", title: "Test", author: "Author") { id title } }',
+        tool: 'Use Thunder Client, Postman or any GraphQL client to test'
+      });
+    });
+
     app.use('/graphql',
       cors({ origin: '*', credentials: true }),
       express.json(),
@@ -61,10 +72,10 @@ async function start() {
       status: 'ok',
       message: 'Library Management System is running',
       endpoints: {
-        rest: `http://localhost:${PORT}`,
-        graphql: `http://localhost:${PORT}/graphql`,
-        docs: `http://localhost:${PORT}/api-docs`,
-        services: `http://localhost:${PORT}/services`
+        rest: `https://library-management-api.azurewebsites.net`,
+        graphql: `https://library-management-api.azurewebsites.net/graphql`,
+        docs: `https://library-management-api.azurewebsites.net/api-docs`,
+        services: `https://library-management-api.azurewebsites.net/services`
       }
     }));
 
