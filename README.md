@@ -135,3 +135,8 @@ npm run dev
 - [Project Report](REPORT.md)
 
 
+## Live Demo
+- **API:** https://library-management-api.azurewebsites.net
+- **Health:** https://library-management-api.azurewebsites.net/health
+- **Swagger Docs:** https://library-management-api.azurewebsites.net/api-docs
+- **GraphQL:** https://library-management-api.azurewebsites.net/graphql
